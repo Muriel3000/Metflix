@@ -1,49 +1,86 @@
 //Metflix
 
-//POR QUE DA ERROR INICIALIZAR CATALOGO ????
+//COMMIT: CODIGO PROFE(listo), BUSCADOR DIRECTOR(listoo), BUSCADOR PELICULA(listo), 
+//es necesario que director reproduzca?
+//agregar websodio, getter y setter
+//COMMIT Y PUSHEAR, COMPARTIR GITHUB
 
+//CLASE 29/03 VER (OOP EJERCICIO ALFON Y METODO APP)
 import java.util.Scanner;
 
 public class App {
 
-    public Scanner Teclado = new Scanner (System.in);
-
+    public static Scanner Teclado = new Scanner (System.in);
+    
     public static void main(String[] args) throws Exception {
 
-        // A partir de Metflix, buscar un episodio y reproducirlo
-        Metflix miMetflix = new Metflix();
+      // A partir de Metflix, buscar un episodio y reproducirlo
+      Metflix miMetflix = new Metflix();
+      System.out.println("Inicializando catalogo de Metflix");
+      miMetflix.inicializarCatalogo();//Llamo al metodo que crea pelis y series
         
-        System.out.println("Inicializando catalogo de Metflix");
-        miMetflix.incializarCatalogo();//Llamo al metodo que crea pelis y series
+      System.out.println("Ingrese si desea buscar por Serie, Pelicula o Director: ");
+      String buscador = Teclado.nextLine();
+      String buscadorDir = "";
+        
+      if (buscador.equals("Director")) { 
+          System.out.println("Ingrese nombre del director: ");
+          String nombreDirector = Teclado.nextLine();
+          System.out.println("Del director " + nombreDirector);
+          miMetflix.buscarDirector(nombreDirector);
+          System.out.println("Ingrese el contenido(Pelicula o Serie): ");
+          buscadorDir = Teclado.nextLine();
+      }
 
-        //Guardar la informacion
-        Serie serieBuscada = miMetflix.buscarSerie("How I met your mother");
-            if (serieBuscada == null) {
-                   System.out.println("Serie no existe");
-                   return;
-            }
+      if (buscador.equals("Serie") || buscadorDir.equals("Serie")) { 
+          System.out.println("Ingrese el nombre de la serie: ");
+          String nombreABuscar = Teclado.nextLine();
+          //Guardar la informacion
+          Serie serieBuscada = miMetflix.buscarSerie(nombreABuscar);
+          if (serieBuscada == null) {
+            System.out.println("No se encontró la serie.");
+            return;
+          }
+        
+          //Ingresar por teclado
+          System.out.println("Ingrese numero de temporada: ");
+          int nroTemporada = Teclado.nextInt();
+          Teclado.nextLine();
+          Temporada temporada = serieBuscada.buscarTemporada(nroTemporada);
 
-        /*
-        Buscar en la serieBuscada la temporada y devolver temporada
-        Especificar numero de temporada y episodio
-        */
-        Temporada temporada = serieBuscada.buscarTemporada(1);
-        Episodio episodio = temporada.buscarEpisodio(1);
-        /*
-        Serie      serieBuscada = miMetflix.    buscarSerie       ("How I met your mother");
-        Temporada  temporada    = serieBuscada. buscarTemporada   (5);
-        Episodio   episodio     = temporada.    buscarEpisodio    (1);
-        */
-        episodio.reproducir();
+          System.out.println("Ingrese numero de episodio: ");
+          int nroEpisodio = Teclado.nextInt();
+          Teclado.nextLine();
+          Episodio episodio =temporada.buscarEpisodio(nroEpisodio);
+          episodio.reproducir();
 
-        Pelicula peliculaBuscada = miMetflix.buscarPelicula("Harry Potter y la piedra filosofal");
-              if (peliculaBuscada == null) { 
-                  System.out.println("La película no existe");
-                  return;
-                }
-        peliculaBuscada.reproducir();
+          //Imprimir si lo que se reprodujo es un websodio o un episodio
+          if (episodio instanceof Websodio) {
+          System.out.println("El episodio es un websodio");
+          }
+          else {
+          System.out.println("Es un episodio");
+          } 
 
-    }
+          //Si es un websodio quiero imprimir su link
+          if (episodio instanceof Websodio) {
+          Websodio websodio = (Websodio) episodio;
+          //Casteo
+           System.out.println("El link del websodio es: " + websodio.link);
+          }
+      }
+
+      if (buscador.equals("Pelicula") || buscadorDir.equals("Pelicula")) { 
+          System.out.println("Ingrese nombre de la pelicula: ");
+          String nombreABuscar2 = Teclado.nextLine();
+          Pelicula peliculaBuscada = miMetflix.buscarPelicula(nombreABuscar2);
+          if (peliculaBuscada == null) { 
+            System.out.println("La película no existe");
+            return;
+          }
+          peliculaBuscada.reproducir();
+      }
+  } 
 
     /* 29/03
     public void reproducirSerie(String nombreSerie, int numeroTemporada, int numeroEpisodio) {
@@ -62,3 +99,7 @@ public class App {
     */ 
 
 }
+
+
+
+

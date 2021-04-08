@@ -13,6 +13,14 @@ public class Temporada {
                 return episodio;
             }
         }
-        return null; // Vacio, nulo
+        return null; //Vacio, nulo
+    }
+
+    public void buscarDirectorEpisodio(String nombreDirector) {
+        for (Episodio episodio : this.episodios) {
+            if (episodio.director.nombre.equals(nombreDirector)) {
+                System.out.println("Episodio: " + episodio.nombre);
+            }
+        }
     }
 }
