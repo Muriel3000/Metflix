@@ -1,11 +1,6 @@
 //Metflix
 
-//COMMIT: CODIGO PROFE(listo), BUSCADOR DIRECTOR(listoo), BUSCADOR PELICULA(listo), 
-//es necesario que director reproduzca?
-//agregar websodio, getter y setter
-//COMMIT Y PUSHEAR, COMPARTIR GITHUB
 
-//CLASE 29/03 VER (OOP EJERCICIO ALFON Y METODO APP)
 import java.util.Scanner;
 
 public class App {
@@ -26,10 +21,20 @@ public class App {
       if (buscador.equals("Director")) { 
           System.out.println("Ingrese nombre del director: ");
           String nombreDirector = Teclado.nextLine();
-          System.out.println("Del director " + nombreDirector);
-          miMetflix.buscarDirector(nombreDirector);
-          System.out.println("Ingrese el contenido(Pelicula o Serie): ");
-          buscadorDir = Teclado.nextLine();
+          //David Fincher(tiene episodio y peicula)
+          
+          //buscar director
+          String directorBuscado = miMetflix.buscarDirector(nombreDirector);
+          //if encontrado imprimir // si no 'no se encontro'
+          if ( directorBuscado == null) {
+            System.out.println("No se encontró el director.");
+          }
+          else {
+            System.out.println("Del director " + nombreDirector);
+            miMetflix.contenidoDelDirector(directorBuscado);
+            System.out.println("Ingrese el contenido (Pelicula o Serie): ");
+            buscadorDir = Teclado.nextLine();
+          }
       }
 
       if (buscador.equals("Serie") || buscadorDir.equals("Serie")) { 
@@ -66,7 +71,7 @@ public class App {
           if (episodio instanceof Websodio) {
           Websodio websodio = (Websodio) episodio;
           //Casteo
-           System.out.println("El link del websodio es: " + websodio.link);
+           System.out.println("El link del websodio es: " + websodio.getLink());
           }
       }
 
@@ -81,23 +86,6 @@ public class App {
           peliculaBuscada.reproducir();
       }
   } 
-
-    /* 29/03
-    public void reproducirSerie(String nombreSerie, int numeroTemporada, int numeroEpisodio) {
-         
-        Metflix miMetflix.inicializarCatalogo();
-
-        nombreSerie = Teclado.nextLine();
-        Serie serieBuscada = miMetflix.buscarSerie(nombreSerie);
-
-        numeroTemporada = Teclado.nextInt();
-        Temporada temporada = serieBuscada.bucarTemporada(numeroTemporada);
-
-        numeroEpisodio = Teclado.nextInt();
-        Episodio episodio = temporada.buscarEpisodio(numeroEpisodio);
-    }
-    */ 
-
 }
 
 
